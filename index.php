@@ -37,6 +37,7 @@
     if (mysqli_num_rows($result) > 0) {
       $row = mysqli_fetch_assoc($result);
       $_SESSION["user_pass"] = $row['username'];
+      $_SESSION["nama_pass"] = $row['nama'];
       if ($row['role'] == 0){
         header("Location: admin.php?username=".$row['username']);
       }

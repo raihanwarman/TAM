@@ -24,12 +24,40 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
   <div class="w3-container w3-row">
     <div class="w3-col s4">
-      <img src="src\img\admin_male.jpg" class="w3-circle w3-margin-right" style="width:46px">
+      <<?php
+          //Untuk ambil data dari dalam form
+        function test_input($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+        }
 
+        //Connect ke Database
+        $conn = new mysqli("localhost", "root", "root", "TAM");
+        if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+        }
+
+
+        $temp = $_SESSION['user_pass'];
+        $query = 'select * FROM gender WHERE username ='.'"'.$temp.'"';
+        $result = mysqli_query($conn, $query);
+
+        if (mysqli_num_rows($result) > 0) {
+          $row = mysqli_fetch_assoc($result);
+          if ($row['gender'] == 0){
+            echo '<img src=" src\img\admin_female.png" class="w3-circle w3-margin-right" style="width:46px">' ;
+          }
+          elseif ($row['gender'] == 1) {
+            echo '<img src="src\img\admin_male.jpg" class="w3-circle w3-margin-right" style="width:46px">';
+          }
+        }
+       ?>
     </div>
     <div class="w3-col s8 w3-bar">
       <?php
-        echo "<span>Welcome, <strong>";echo$_SESSION["user_pass"];echo"</strong></span><br>";
+        echo "<span>Welcome, <strong>";echo$_SESSION["nama_pass"];echo"</strong></span><br>";
        ?>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
@@ -43,9 +71,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
     <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Overview</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Maintenance</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Reporting</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"> </i>  Dapros</a>
+    <a href="#" onclick="location.href='admin_maintenance.php'" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Maintenance</a>
+    <a href="admin_reporting.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Reporting</a>
+    <a href="admin_dapros.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"> </i>  Dapros</a>
   </div>
 </nav>
 
