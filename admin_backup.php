@@ -41,7 +41,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
 
         $temp = $_SESSION['user_pass'];
-        $query = 'select * FROM gender WHERE username ='.'"'.$temp.'"';
+        $query = 'select gender FROM user WHERE username ='.'"'.$temp.'"';
         $result = mysqli_query($conn, $query);
 
         if (mysqli_num_rows($result) > 0) {

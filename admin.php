@@ -46,7 +46,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
 
         $temp = $_SESSION['user_pass'];
-        $query = 'select * FROM gender WHERE username ='.'"'.$temp.'"';
+        $query = 'select gender FROM user WHERE username ='.'"'.$temp.'"';
         $result = mysqli_query($conn, $query);
 
         if (mysqli_num_rows($result) > 0) {
@@ -95,165 +95,97 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   </header>
 
   <div class="w3-row-padding w3-margin-bottom">
-    <div class="w3-quarter">
-      <div class="w3-container w3-red w3-padding-16">
-        <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
+    <div class="w3-third">
+      <div class="w3-container w3-blue w3-padding-16">
+        <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>52</h3>
+          <?php
+          $query = "SELECT COUNT(username) as jumlah FROM agent";
+          $result = mysqli_query($conn, $query);
+          ///
+          if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            echo "<h3>".$row["jumlah"]."</h3>";
+          }
+          ?>
         </div>
         <div class="w3-clear"></div>
-        <h4>Messages</h4>
+        <h4>Total Agent</h4>
       </div>
     </div>
-    <div class="w3-quarter">
-      <div class="w3-container w3-blue w3-padding-16">
+    <div class="w3-third">
+      <div class="w3-container w3-teal w3-padding-16">
         <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>99</h3>
+          <?php
+          $query = "SELECT COUNT(login_status) as jumlah FROM agent WHERE login_status = 1";
+          $result = mysqli_query($conn, $query);
+          ///
+          if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            echo "<h3>".$row["jumlah"]."</h3>";
+          }
+          ?>
         </div>
         <div class="w3-clear"></div>
-        <h4>Views</h4>
+        <h4>Total Agent Active</h4>
       </div>
     </div>
-    <div class="w3-quarter">
-      <div class="w3-container w3-teal w3-padding-16">
-        <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
-        <div class="w3-right">
-          <h3>23</h3>
-        </div>
-        <div class="w3-clear"></div>
-        <h4>Shares</h4>
-      </div>
-    </div>
-    <div class="w3-quarter">
+    <div class="w3-third">
       <div class="w3-container w3-orange w3-text-white w3-padding-16">
-        <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
+        <div class="w3-left"><i class="fa fa-money w3-xxxlarge"></i></div>
         <div class="w3-right">
           <h3>50</h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Users</h4>
+        <h4>Deals made today</h4>
+      </div>
+    </div>
+  </div>
+
+
+  <hr>
+  <div class="w3-panel">
+    <div class="w3-row-padding" style="margin:0 -16px">
+        <h5>Daily Status Call Detail</h5>
+        <div class="w3-half w3-padding-16">
+        <p>Connected</p>
+        <div class="w3-grey">
+          <div class="w3-container w3-center w3-padding w3-green" style="width:25%">+25%</div>
+        </div>
+      </div>
+
+      <div class="w3-half w3-padding-16">
+        <p>Unconnected</p>
+        <div class="w3-grey">
+          <div class="w3-container w3-center w3-padding w3-green" style="width:75%">75%</div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="w3-panel">
     <div class="w3-row-padding" style="margin:0 -16px">
-      <div class="w3-third">
-        <h5>Regions</h5>
-        <img src="/w3images/region.jpg" style="width:100%" alt="Google Regional Map">
+        <h5>Monthly Status Call Detail</h5>
+        <div class="w3-half w3-padding-16">
+        <p>Connected</p>
+        <div class="w3-grey">
+          <div class="w3-container w3-center w3-padding w3-blue" style="width:25%">+25%</div>
+        </div>
       </div>
-      <div class="w3-twothird">
-        <h5>Feeds</h5>
-        <table class="w3-table w3-striped w3-white">
-          <tr>
-            <td><i class="fa fa-user w3-text-blue w3-large"></i></td>
-            <td>New record, over 90 views.</td>
-            <td><i>10 mins</i></td>
-          </tr>
-          <tr>
-            <td><i class="fa fa-bell w3-text-red w3-large"></i></td>
-            <td>Database error.</td>
-            <td><i>15 mins</i></td>
-          </tr>
-          <tr>
-            <td><i class="fa fa-users w3-text-yellow w3-large"></i></td>
-            <td>New record, over 40 users.</td>
-            <td><i>17 mins</i></td>
-          </tr>
-          <tr>
-            <td><i class="fa fa-comment w3-text-red w3-large"></i></td>
-            <td>New comments.</td>
-            <td><i>25 mins</i></td>
-          </tr>
-          <tr>
-            <td><i class="fa fa-bookmark w3-text-blue w3-large"></i></td>
-            <td>Check transactions.</td>
-            <td><i>28 mins</i></td>
-          </tr>
-          <tr>
-            <td><i class="fa fa-laptop w3-text-red w3-large"></i></td>
-            <td>CPU overload.</td>
-            <td><i>35 mins</i></td>
-          </tr>
-          <tr>
-            <td><i class="fa fa-share-alt w3-text-green w3-large"></i></td>
-            <td>New shares.</td>
-            <td><i>39 mins</i></td>
-          </tr>
-        </table>
+
+      <div class="w3-half w3-padding-16">
+        <p>Unconnected</p>
+        <div class="w3-grey">
+          <div class="w3-container w3-center w3-padding w3-blue" style="width:50%">50%</div>
+        </div>
       </div>
     </div>
   </div>
   <hr>
-  <div class="w3-container">
-    <h5>General Stats</h5>
-    <p>New Visitors</p>
-    <div class="w3-grey">
-      <div class="w3-container w3-center w3-padding w3-green" style="width:25%">+25%</div>
-    </div>
 
-    <p>New Users</p>
-    <div class="w3-grey">
-      <div class="w3-container w3-center w3-padding w3-orange" style="width:50%">50%</div>
-    </div>
 
-    <p>Bounce Rate</p>
-    <div class="w3-grey">
-      <div class="w3-container w3-center w3-padding w3-red" style="width:75%">75%</div>
-    </div>
-  </div>
-  <hr>
 
-  <div class="w3-container">
-    <h5>Countries</h5>
-    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
-      <tr>
-        <td>United States</td>
-        <td>65%</td>
-      </tr>
-      <tr>
-        <td>UK</td>
-        <td>15.7%</td>
-      </tr>
-      <tr>
-        <td>Russia</td>
-        <td>5.6%</td>
-      </tr>
-      <tr>
-        <td>Spain</td>
-        <td>2.1%</td>
-      </tr>
-      <tr>
-        <td>India</td>
-        <td>1.9%</td>
-      </tr>
-      <tr>
-        <td>France</td>
-        <td>1.5%</td>
-      </tr>
-    </table><br>
-    <button class="w3-button w3-dark-grey">More Countries  <i class="fa fa-arrow-right"></i></button>
-  </div>
-  <hr>
-  <div class="w3-container">
-    <h5>Recent Users</h5>
-    <ul class="w3-ul w3-card-4 w3-white">
-      <li class="w3-padding-16">
-        <img src="/w3images/avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
-        <span class="w3-xlarge">Mike</span><br>
-      </li>
-      <li class="w3-padding-16">
-        <img src="/w3images/avatar5.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
-        <span class="w3-xlarge">Jill</span><br>
-      </li>
-      <li class="w3-padding-16">
-        <img src="/w3images/avatar6.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
-        <span class="w3-xlarge">Jane</span><br>
-      </li>
-    </ul>
-  </div>
-  <hr>
 
   <div class="w3-container">
     <h5>Recent Comments</h5>
