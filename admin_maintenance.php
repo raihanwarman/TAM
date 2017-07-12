@@ -1,9 +1,73 @@
 <?php
 // Start the session
-session_start();
-if($_SESSION['user_pass'] == NULL){
-  header("Location: index.php");
-}
+  session_start();
+  if($_SESSION['user_pass'] == NULL){
+    header("Location: index.php");
+  }
+  else {
+
+        //Untuk ambil data dari dalam form
+        function test_input($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+        }
+
+
+
+          if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+          //Connect ke Database
+          $conn = new mysqli("localhost", "root", "root", "TAM");
+          if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+          }
+          else {
+            /*
+            $message = "Berhasil Masuk Database!";
+            echo "<script type='text/javascript'>alert('$message');</script>";
+            */
+          }
+
+          $username = test_input($_POST["username"]);
+          $nama     = test_input($_POST["nama"]);
+          $password = test_input($_POST["password"]);
+          $gender = test_input($_POST["gender"]);
+          $position = test_input($_POST["position"]);
+
+          //Cek role berdasarkan username lalu login
+          $query_update_user_table = "insert into user (nama, username, password, role, gender)
+                    values('$nama','$username','$password','2','$gender')";
+          $query_update_agent_table = "insert into agent(username, login_status,
+                    position, sales_day, sales_week, sales_month, performance, status)
+                    values('$username', 0, '$position', 0, 0, 0, 0, 0)";
+          $query_update_login_note_table = "insert into login_note(username, last_login)
+                    values('$username', 0)";
+          //update tabel login_note
+          if ($conn->query($query_update_login_note_table) === TRUE)  {
+            echo "<script type='text/javascript'>alert('login_note updated!');</script>";
+
+          } else {
+            echo "<script type='text/javascript'>alert('login_note not updated!');</script>";
+          }
+          //update tabel agent
+          if ($conn->query($query_update_agent_table) === TRUE)  {
+            echo "<script type='text/javascript'>alert('agent updated!');</script>";
+
+          } else {
+            echo "<script type='text/javascript'>alert('agent not updated!');</script>";
+          }
+          //update tabel user
+          if ($conn->query($query_update_user_table) === TRUE)  {
+            echo "<script type='text/javascript'>alert('user updated!');</script>";
+
+          } else {
+            echo "<script type='text/javascript'>alert('user not updated!');</script>";
+          }
+        }
+  }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -29,13 +93,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <div class="w3-container w3-row">
     <div class="w3-col s4">
       <?php
-          //Untuk ambil data dari dalam form
-        function test_input($data) {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-        }
+        
 
         //Connect ke Database
         $conn = new mysqli("localhost", "root", "root", "TAM");
@@ -88,35 +146,61 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
 
-  <div class="w3-container w3-dark-grey w3-padding-32">
-    <div class="w3-row">
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-green">Demographic</h5>
-        <p>Language</p>
-        <p>Country</p>
-        <p>City</p>
+  <div class="w3-container w3-padding-32">
+    <h4> Create User </h4>
+    <form action="admin_maintenance.php" method="post"  id="form1">
+
+      <div class="w3-row w3-section">
+        <div class="w3-rest">
+          <input class="w3-input w3-border" name="nama" type="text" placeholder="nama">
+        </div>
       </div>
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-red">System</h5>
-        <p>Browser</p>
-        <p>OS</p>
-        <p>More</p>
+
+
+
+      <div class="w3-row w3-section">
+        <div class="w3-rest">
+          <input class="w3-input w3-border" name="username" type="text" placeholder="username">
+        </div>
       </div>
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-orange">Target</h5>
-        <p>Users</p>
-        <p>Active</p>
-        <p>Geo</p>
-        <p>Interests</p>
+
+
+
+      <div class="w3-row w3-section">
+        <div class="w3-rest">
+          <input class="w3-input w3-border" name="password" type="text" placeholder="password">
+        </div>
       </div>
-    </div>
+
+
+
+      <div class="w3-row w3-section">
+        <div class="w3-rest">
+          <input class="w3-input w3-border" name="gender" type="text" placeholder="gender">
+        </div>
+      </div>
+
+
+
+      <div class="w3-row w3-section">
+        <div class="w3-rest">
+          <select class="w3-input w3-border" name="position" type="text" placeholder="position">
+            <option value="inbound"> Inbound </option>
+            <option value="outbound"> Outbound</option>
+          </select>
+        </div>
+      </div>
+
+
+
+
+      <button id"button1" class="w3-button w3-block w3-section w3-padding w3-ripple w3-red"  >Login</button>
+
+    </form>
   </div>
 
-  <!-- Footer -->
-  <footer class="w3-container w3-padding-16 w3-light-grey">
-    <h4>FOOTER</h4>
-    <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-  </footer>
+
+
 
   <!-- End page content -->
 </div>

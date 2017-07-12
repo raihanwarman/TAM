@@ -23,8 +23,10 @@
       die("Connection failed: " . $conn->connect_error);
     }
     else {
+      /*
       $message = "Berhasil Masuk Database!";
       echo "<script type='text/javascript'>alert('$message');</script>";
+      */
     }
 
     $usr = test_input($_POST["username"]);

@@ -7,7 +7,7 @@ session_start();
 ?>
 <!DOCTYPE html>
 <html>
-<title>Admin</title>
+<title>Quality</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="src/css/w3.css">
@@ -90,124 +90,50 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
   <!-- Header -->
   <header class="w3-container" style="padding-top:22px">
-    <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
+    <h5><b><i class="fa fa-dashboard"></i>  Agent Status</b></h5>
   </header>
 
   <div class="w3-row-padding w3-margin-bottom">
-    <div class="w3-third">
-      <div class="w3-container w3-blue w3-padding-16">
-        <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
-        <div class="w3-right">
+    <div class="w3-half">
+      <h6>Inbound Agent</h6>
+      <table class="w3-table-all">
+       <tr>
+         <th>Nama</th>
+         <th>Aux Time</th>
+       </tr>
+       <tr>
+         <td>Dono</td>
+         <td>10</td>
+       </tr>
+      </table>
+     </div>
+     <div class="w3-half">
+       <h6>Outbound Agent</h6>
+       <table class="w3-table-all">
+        <tr>
+          <th>Nama</th>
+          <th>Aux Time</th>
+        </tr>
+        <tr>
           <?php
-          $query = "SELECT COUNT(username) as jumlah FROM agent";
-          $result = mysqli_query($conn, $query);
-          ///
-          if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            echo "<h3>".$row["jumlah"]."</h3>";
-          }
+            $query="select user.nama as nama, login_note.last_login as last from (user inner join login_note on login_note.username = user.username inner join agent on user.username = agent.username) where agent.position = 'outbound'";
+            $result = mysqli_query($conn, $query);
+            //tulis output di tabel
+            if (mysqli_num_rows($result) > 0) {
+              while($row = $result->fetch_assoc()) {
+                echo"<td>".$row["nama"]."</td>";
+                echo"<td>".$row["last"]."</td>";
+              }
+            }
           ?>
-        </div>
-        <div class="w3-clear"></div>
-        <h4>Total Agent</h4>
+        </tr>
+       </table>
       </div>
-    </div>
-    <div class="w3-third">
-      <div class="w3-container w3-teal w3-padding-16">
-        <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
-        <div class="w3-right">
-          <?php
-          $query = "SELECT COUNT(login_status) as jumlah FROM agent WHERE login_status = 1";
-          $result = mysqli_query($conn, $query);
-          ///
-          if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            echo "<h3>".$row["jumlah"]."</h3>";
-          }
-          ?>
-        </div>
-        <div class="w3-clear"></div>
-        <h4>Total Agent Active</h4>
-      </div>
-    </div>
-    <div class="w3-third">
-      <div class="w3-container w3-orange w3-text-white w3-padding-16">
-        <div class="w3-left"><i class="fa fa-money w3-xxxlarge"></i></div>
-        <div class="w3-right">
-          <h3>50</h3>
-        </div>
-        <div class="w3-clear"></div>
-        <h4>Deals made today</h4>
-      </div>
-    </div>
-  </div>
-
-
-  <hr>
-  <div class="w3-panel">
-    <div class="w3-row-padding" style="margin:0 -16px">
-        <h5>Daily Status Call Detail</h5>
-        <div class="w3-half w3-padding-16">
-        <p>Connected</p>
-        <div class="w3-grey">
-          <div class="w3-container w3-center w3-padding w3-green" style="width:25%">+25%</div>
-        </div>
-      </div>
-
-      <div class="w3-half w3-padding-16">
-        <p>Unconnected</p>
-        <div class="w3-grey">
-          <div class="w3-container w3-center w3-padding w3-green" style="width:75%">75%</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="w3-panel">
-    <div class="w3-row-padding" style="margin:0 -16px">
-        <h5>Monthly Status Call Detail</h5>
-        <div class="w3-half w3-padding-16">
-        <p>Connected</p>
-        <div class="w3-grey">
-          <div class="w3-container w3-center w3-padding w3-blue" style="width:25%">+25%</div>
-        </div>
-      </div>
-
-      <div class="w3-half w3-padding-16">
-        <p>Unconnected</p>
-        <div class="w3-grey">
-          <div class="w3-container w3-center w3-padding w3-blue" style="width:50%">50%</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <hr>
+   </div>
 
 
 
 
-  <div class="w3-container">
-    <h5>Recent Comments</h5>
-    <div class="w3-row">
-      <div class="w3-col m2 text-center">
-        <img class="w3-circle" src="/w3images/avatar3.png" style="width:96px;height:96px">
-      </div>
-      <div class="w3-col m10 w3-container">
-        <h4>John <span class="w3-opacity w3-medium">Sep 29, 2014, 9:12 PM</span></h4>
-        <p>Keep up the GREAT work! I am cheering for you!! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
-      </div>
-    </div>
-
-    <div class="w3-row">
-      <div class="w3-col m2 text-center">
-        <img class="w3-circle" src="/w3images/avatar1.png" style="width:96px;height:96px">
-      </div>
-      <div class="w3-col m10 w3-container">
-        <h4>Bo <span class="w3-opacity w3-medium">Sep 28, 2014, 10:15 PM</span></h4>
-        <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
-      </div>
-    </div>
-  </div>
   <br>
   <div class="w3-container w3-dark-grey w3-padding-32">
     <div class="w3-row">
