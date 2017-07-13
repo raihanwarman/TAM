@@ -7,7 +7,7 @@ session_start();
 ?>
 <!DOCTYPE html>
 <html>
-<title>Admin</title>
+<title>Quality</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="src/css/w3.css">
@@ -93,7 +93,31 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <h5><b><i class="fa fa-dashboard"></i> Evaluate Agent</b></h5>
   </header>
 
+  <table class="w3-table-all">
+    <thead>
+     <tr class="w3-light-grey">
+       <th>Nama</th>
+       <th>Performance</th>
+       <th>Action</th>
+     </tr>
+   </thead>
+   <?php
+     $query="select user.nama as nama, agent.performance as performance from (user inner join quality_to_agent on user.username = quality_to_agent.agent_id
+             inner join agent on user.username = agent.username) where quality_to_agent.quality_id = '".$_SESSION["user_pass"]."'";
+     $result = mysqli_query($conn, $query);
+     //tulis output di tabel
+     if (mysqli_num_rows($result) > 0) {
+       while($row = $result->fetch_assoc()) {
+         echo"<tr>";
+         echo"<td>".$row["nama"]."</td>";
+         echo"<td>".$row["performance"]."</td>";
+         echo"<td><i class='fa fa-arrow-right w3-button' aria-hidden='true'></i></td>";
+         echo"</tr>";
+       }
+     }
+   ?>
 
+  </table>
 
   <!-- Footer -->
   <footer class="w3-container w3-padding-16 w3-light-grey">

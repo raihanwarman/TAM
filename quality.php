@@ -97,36 +97,50 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <div class="w3-half">
       <h6>Inbound Agent</h6>
       <table class="w3-table-all">
-       <tr>
-         <th>Nama</th>
-         <th>Aux Time</th>
-       </tr>
-       <tr>
-         <td>Dono</td>
-         <td>10</td>
-       </tr>
+        <thead>
+         <tr class="w3-light-grey">
+           <th>Nama</th>
+           <th>Aux Time</th>
+         </tr>
+       </thead>
+       <?php
+         $query="select user.nama as nama, login_note.last_login as last from (user inner join login_note on login_note.username = user.username inner join agent on user.username = agent.username) where agent.position = 'inbound'";
+         $result = mysqli_query($conn, $query);
+         //tulis output di tabel
+         if (mysqli_num_rows($result) > 0) {
+           while($row = $result->fetch_assoc()) {
+             echo"<tr>";
+             echo"<td>".$row["nama"]."</td>";
+             echo"<td>".$row["last"]."</td>";
+             echo"</tr>";
+           }
+         }
+       ?>
+
       </table>
      </div>
      <div class="w3-half">
        <h6>Outbound Agent</h6>
        <table class="w3-table-all">
-        <tr>
-          <th>Nama</th>
-          <th>Aux Time</th>
-        </tr>
-        <tr>
-          <?php
-            $query="select user.nama as nama, login_note.last_login as last from (user inner join login_note on login_note.username = user.username inner join agent on user.username = agent.username) where agent.position = 'outbound'";
-            $result = mysqli_query($conn, $query);
-            //tulis output di tabel
-            if (mysqli_num_rows($result) > 0) {
-              while($row = $result->fetch_assoc()) {
-                echo"<td>".$row["nama"]."</td>";
-                echo"<td>".$row["last"]."</td>";
-              }
+         <thead>
+          <tr class="w3-light-grey">
+            <th>Nama</th>
+            <th>Aux Time</th>
+          </tr>
+        </thead>
+        <?php
+          $query="select user.nama as nama, login_note.last_login as last from (user inner join login_note on login_note.username = user.username inner join agent on user.username = agent.username) where agent.position = 'outbound'";
+          $result = mysqli_query($conn, $query);
+          //tulis output di tabel
+          if (mysqli_num_rows($result) > 0) {
+            while($row = $result->fetch_assoc()) {
+              echo"<tr>";
+              echo"<td>".$row["nama"]."</td>";
+              echo"<td>".$row["last"]."</td>";
+              echo"</tr>";
             }
-          ?>
-        </tr>
+          }
+        ?>
        </table>
       </div>
    </div>
