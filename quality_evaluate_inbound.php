@@ -99,6 +99,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
       if (mysqli_num_rows($result) > 0) {
         while($row = $result->fetch_assoc()) {
           echo'<h5><b><i class="fa fa-dashboard"></i> Evaluate '.$row["nama"].' ( '.$row["posisi"].' )</b></h5>';
+          $posisi = $row["posisi"];
         }
       }
     ?>
@@ -175,22 +176,50 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
                 $content = "Menangani keluhan pelanggan";
                 break;
             case 10:
-                $content = "Dapat memberikan informasi produk dan solusi sesuai dengan prosedur";
+                if ($posisi == "inbound"){
+                  $content = "Dapat memberikan informasi produk dan solusi sesuai dengan prosedur";
+                }elseif ($posisi == "outbound") {
+                  $content = "Dapat memberikan informasi produk dan prosedur dengan akurat dan tepat";
+                }
                 break;
             case 11:
-                $content = "Memberikan informasi dengan jelas, lengkap dan sistematis (tidakberbelit-belit)";
+                if ($posisi == "inbound"){
+                  $content = "Memberikan informasi dengan jelas, lengkap dan sistematis (tidakberbelit-belit)";
+                }elseif ($posisi == "outbound") {
+                  $content = "Melakukan presentasi produk dengan jelas, lengkap dan sistematis (tidakberbelit-belit)";
+                }
                 break;
             case 12:
-                $content = "Memberikan pengaruh kepada pelanggan untuk menyetujui berlangganan";
+                if ($posisi == "inbound"){
+                  $content = "Memberikan pengaruh kepada pelanggan untuk menyetujui berlangganan";
+                }elseif ($posisi == "outbound") {
+                  $content = "Memberikan pengaruh kepada pelanggan untuk menyetujui:
+                              - melengkapi data untuk profiling
+                              - membeli/mengupgrade produk/jasa layanan
+                              - tetap berlangganan
+                              - menerima penawaran produk/ layanan lainnya ";
+                }
                 break;
             case 13:
-                $content = "Tidak memberikan informasi terkait produk dan prosedur secara berlebihan / menyesatkan ataupun cara-cara memberdaya pelanggan lainnya";
+                if ($posisi == "inbound"){
+                  $content = "Tidak memberikan informasi terkait produk dan prosedur secara berlebihan / menyesatkan ataupun cara-cara memberdaya pelanggan lainnya";
+                }elseif ($posisi == "outbound") {
+                  $content = "Tidak memberikan informasi terkait produk dan prosedur secara berlebihan/ menyesatkan ataupun cara-cara memberdaya pelanggan lainnya";
+                }
                 break;
             case 14:
-                $content = "Mengisi data pada aplikasi internal untuk pembuatan tiket / registrasi / penambahan fitur / work code";
+                if ($posisi == "inbound"){
+                  $content = "Mengisi data pada aplikasi internal untuk pembuatan tiket / registrasi / penambahan fitur / work code";
+                }elseif ($posisi == "outbound") {
+                  $content = "Mengisi data registrasi/pembelian produk/fitur";
+                }
                 break;
             case 15:
-                $content = "Summary : merangkum dan mengkonfirmasi ulang sesuai ketentuan sekaligus mendapat persetujuan dari pelanggan atas pelaporan gangguan / transaksi / pembelian/registrasi data";
+                if ($posisi == "inbound"){
+                  $content = "Summary : merangkum dan mengkonfirmasi ulang sesuai ketentuan sekaligus mendapat persetujuan dari pelanggan atas pelaporan gangguan / transaksi / pembelian/registrasi data";
+                }elseif ($posisi == "outbound") {
+                  $content = "Summary : merangkum dan mengkonfirmasi ulang sesuai ketentuan sekaligus mendapat persetujuan dari pelanggan atas transaksi pembelian/ registrasi data/ layanan lainnya.";
+                }
                 break;
           }
           echo' <div class="w3-row-padding">
