@@ -44,6 +44,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
           die("Connection failed: " . $conn->connect_error);
         }
 
+        $username = $_GET["usr"];
 
         $temp = $_SESSION['user_pass'];
         $query = 'select gender FROM user WHERE username ='.'"'.$temp.'"';
@@ -76,7 +77,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
     <a href="quality.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Agent Monitoring</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Evaluate Agent</a>
+    <a href="quality_evaluate.php" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Evaluate Agent</a>
     <a href="quality_review.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"> </i>  Review</a>
   </div>
 </nav>
@@ -93,36 +94,68 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <h5><b><i class="fa fa-dashboard"></i> Evaluate Agent</b></h5>
   </header>
 
-  <table class="w3-table-all">
-    <thead>
-     <tr class="w3-light-grey">
-       <th>Nama</th>
-       <th>Performance</th>
-       <th>Action</th>
-     </tr>
-   </thead>
-   <?php
-     $query="select user.username as username, user.nama as nama, agent.performance as performance, agent.position as posisi from (user inner join quality_to_agent on user.username = quality_to_agent.agent_id
-             inner join agent on user.username = agent.username) where quality_to_agent.quality_id = '".$_SESSION["user_pass"]."'";
-     $result = mysqli_query($conn, $query);
-     //tulis output di tabel
-     if (mysqli_num_rows($result) > 0) {
-       while($row = $result->fetch_assoc()) {
-         echo"<tr>";
-         echo"<td>".$row["nama"]."</td>";
-         echo"<td>".$row["performance"]."</td>";
-         if ($row["posisi"] == "inbound"){
-           echo'<td><a href="quality_evaluate_inbound.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-arrow-right fa-fw"></i></a></td>';
-         }
-         else {
-           echo'<td><a href="quality_evaluate_outbound.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-arrow-right fa-fw"></i></a></td>';
-         }
-         echo"</tr>";
-       }
-     }
-   ?>
+  <div class="w3-container w3-padding-32">
+    <?php
 
-  </table>
+      $kueri = "select user.nama as nama, agent.position as posisi from(user inner join agent on user.username = agent.username) where user.username ='".$_GET["usr"]."'";
+      $result = mysqli_query($conn, $kueri);
+      ///
+      if (mysqli_num_rows($result) > 0) {
+        while($row = $result->fetch_assoc()) {
+          echo"<h4>".$row["posisi"]." - ".$row["nama"]."</h4>";
+        }
+      }
+    ?>
+    <form action="admin_maintenance.php" method="post"  id="form1">
+
+      <div class="w3-row w3-section">
+        <div class="w3-rest">
+          <input class="w3-input w3-border" name="nama" type="text" placeholder="nama">
+        </div>
+      </div>
+
+
+
+      <div class="w3-row w3-section">
+        <div class="w3-rest">
+          <input class="w3-input w3-border" name="username" type="text" placeholder="username">
+        </div>
+      </div>
+
+
+
+      <div class="w3-row w3-section">
+        <div class="w3-rest">
+          <input class="w3-input w3-border" name="password" type="text" placeholder="password">
+        </div>
+      </div>
+
+
+
+      <div class="w3-row w3-section">
+        <div class="w3-rest">
+          <input class="w3-input w3-border" name="gender" type="text" placeholder="gender">
+        </div>
+      </div>
+
+
+
+      <div class="w3-row w3-section">
+        <div class="w3-rest">
+          <select class="w3-input w3-border" name="position" type="text" placeholder="position">
+            <option value="inbound"> Inbound </option>
+            <option value="outbound"> Outbound</option>
+          </select>
+        </div>
+      </div>
+
+
+
+
+      <button id"button1" class="w3-button w3-block w3-section w3-padding w3-ripple w3-red"  >Login</button>
+
+    </form>
+  </div>
 
   <!-- Footer -->
   <footer class="w3-container w3-padding-16 w3-light-grey">
