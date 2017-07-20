@@ -111,12 +111,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
          echo"<tr>";
          echo"<td>".$row["nama"]."</td>";
          echo"<td>".$row["performance"]."</td>";
-         if ($row["posisi"] == "inbound"){
-           echo'<td><a href="quality_evaluate_inbound.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-arrow-right fa-fw"></i></a></td>';
-         }
-         else {
-           echo'<td><a href="quality_evaluate_inbound.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-arrow-right fa-fw"></i></a></td>';
-         }
+         echo'<td><a href="quality_evaluate_input_value.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-arrow-right fa-fw"></i></a></td>';
+
          echo"</tr>";
        }
      }
