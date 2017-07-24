@@ -102,6 +102,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
           $posisi = $row["posisi"];
         }
       }
+      $_SESSION['agent_pos'] = $posisi;
+      $_SESSION['agent_usr'] = $username;
     ?>
 
   </header>
@@ -110,7 +112,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   </div>
 
   <div class="w3-container ">
-    <form action="quality_evaluate_temp.php" method="post"  id="form1">
+    <form action="quality_evaluate_process.php" method="post"  id="form1">
       <?php
         $counter = 1;
         $content = "";
@@ -227,10 +229,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
                     <p class="w3-justify">' .$content .'</p>
                   </div>
                   <div class="w3-third">
-                    <input class="w3-input w3-border" name="poin_'.$counter.'_satu" type="text" placeholder="Sampel Satu">
+                    <input class="w3-input w3-border" name="poin_'.$counter.'_satu" type="text" placeholder="Sampel Satu" required>
                   </div>
                   <div class="w3-third">
-                    <input class="w3-input w3-border" name="poin_empat_dua"type="text" placeholder="Sampel Dua">
+                    <input class="w3-input w3-border" name="poin_'.$counter.'_dua"type="text" placeholder="Sampel Dua" required>
                   </div>
                 </div>';
           $counter++;
