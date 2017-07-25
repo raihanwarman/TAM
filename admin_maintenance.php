@@ -44,6 +44,8 @@
                     values('$username', 0, '$position', 0, 0, 0, 0, 0)";
           $query_update_login_note_table = "insert into login_note(username, last_login)
                     values('$username', 0)";
+          $query_update_agent_performance = "insert into agent_performance(username)
+                    values('$username');"
           //update tabel login_note
           if ($conn->query($query_update_login_note_table) === TRUE)  {
             echo "<script type='text/javascript'>alert('login_note updated!');</script>";
@@ -64,6 +66,13 @@
 
           } else {
             echo "<script type='text/javascript'>alert('user not updated!');</script>";
+          }
+          //update tabel agent_performance
+          if ($conn->query($query_update_agent_performance) === TRUE)  {
+            echo "<script type='text/javascript'>alert('agent performanceupdated!');</script>";
+
+          } else {
+            echo "<script type='text/javascript'>alert('agent performance not updated!');</script>";
           }
         }
   }
@@ -93,7 +102,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <div class="w3-container w3-row">
     <div class="w3-col s4">
       <?php
-        
+
 
         //Connect ke Database
         $conn = new mysqli("localhost", "root", "root", "TAM");

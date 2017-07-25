@@ -41,13 +41,13 @@
       $_SESSION["user_pass"] = $row['username'];
       $_SESSION["nama_pass"] = $row['nama'];
       if ($row['role'] == 0){
-        header("Location: admin.php?username=".$row['username']);
+        header("Location: admin.php");
       }
       elseif ($row['role'] == 1) {
-        header("Location: quality.php?username=".$row['username']);
+        header("Location: quality.php");
       }
       elseif ($row['role'] == 2) {
-        header("Location: agent.php?username=".$row['Username']);
+        header("Location: agent.php");
       }
     }
     else {
