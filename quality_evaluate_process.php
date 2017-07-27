@@ -87,11 +87,29 @@
   }
   date_default_timezone_set("Asia/Bangkok");
   $time = date('Y-m-d H:i:s');
-  $query_update_agent_performance =  "update agent_performance
-                                      set date='$time' ,p1=$x1 , p2=$x2 , p3=$x3 , p4=$x4 , p5=$x5 ,
-                                      p6=$x6 , p7=$x7 , p8=$x8 , p9=$x9 , p10=$x10 , p11=$x11 ,
-                                      p12=$x12 , p13=$x13 , p14=$x14 , p15=$x15 , total=$total
-                                      where username='$usr'";
+  $periode = ceil(date('d') / 10);
+  if ($periode == 1){
+    $query_update_agent_performance =  "update agent_performance_1
+                                        set date='$time' ,p1=$x1 , p2=$x2 , p3=$x3 , p4=$x4 , p5=$x5 ,
+                                        p6=$x6 , p7=$x7 , p8=$x8 , p9=$x9 , p10=$x10 , p11=$x11 ,
+                                        p12=$x12 , p13=$x13 , p14=$x14 , p15=$x15 , total=$total
+                                        where username='$usr'";
+  }
+  elseif($periode == 2){
+    $query_update_agent_performance =  "update agent_performance_2
+                                        set date='$time' ,p1=$x1 , p2=$x2 , p3=$x3 , p4=$x4 , p5=$x5 ,
+                                        p6=$x6 , p7=$x7 , p8=$x8 , p9=$x9 , p10=$x10 , p11=$x11 ,
+                                        p12=$x12 , p13=$x13 , p14=$x14 , p15=$x15 , total=$total
+                                        where username='$usr'";
+  }
+  elseif($periode == 3){
+    $query_update_agent_performance =  "update agent_performance_3
+                                        set date='$time' ,p1=$x1 , p2=$x2 , p3=$x3 , p4=$x4 , p5=$x5 ,
+                                        p6=$x6 , p7=$x7 , p8=$x8 , p9=$x9 , p10=$x10 , p11=$x11 ,
+                                        p12=$x12 , p13=$x13 , p14=$x14 , p15=$x15 , total=$total
+                                        where username='$usr'";
+  }
+
 
   $query_update_agent_performance_agent =  "update agent
                                             set performance=$total

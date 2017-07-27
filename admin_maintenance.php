@@ -44,8 +44,12 @@
                     values('$username', 0, '$position', 0, 0, 0, 0, 0)";
           $query_update_login_note_table = "insert into login_note(username, last_login)
                     values('$username', 0)";
-          $query_update_agent_performance = "insert into agent_performance(username)
-                    values('$username');"
+          $query_update_agent_performance_1 = "insert into agent_performance_1(username)
+                    values('$username');";
+          $query_update_agent_performance_2 = "insert into agent_performance_2(username)
+                    values('$username');";
+          $query_update_agent_performance_3 = "insert into agent_performance_3(username)
+                    values('$username');";
           //update tabel login_note
           if ($conn->query($query_update_login_note_table) === TRUE)  {
             echo "<script type='text/javascript'>alert('login_note updated!');</script>";
@@ -68,7 +72,21 @@
             echo "<script type='text/javascript'>alert('user not updated!');</script>";
           }
           //update tabel agent_performance
-          if ($conn->query($query_update_agent_performance) === TRUE)  {
+          if ($conn->query($query_update_agent_performance_1) === TRUE)  {
+            echo "<script type='text/javascript'>alert('agent performanceupdated!');</script>";
+
+          } else {
+            echo "<script type='text/javascript'>alert('agent performance not updated!');</script>";
+          }
+          //update tabel agent_performance
+          if ($conn->query($query_update_agent_performance_2) === TRUE)  {
+            echo "<script type='text/javascript'>alert('agent performanceupdated!');</script>";
+
+          } else {
+            echo "<script type='text/javascript'>alert('agent performance not updated!');</script>";
+          }
+          //update tabel agent_performance
+          if ($conn->query($query_update_agent_performance_3) === TRUE)  {
             echo "<script type='text/javascript'>alert('agent performanceupdated!');</script>";
 
           } else {
@@ -203,7 +221,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
 
 
-      <button id"button1" class="w3-button w3-block w3-section w3-padding w3-ripple w3-red"  >Login</button>
+      <button id"button1" class="w3-button w3-block w3-section w3-padding w3-ripple w3-red"  >Create User</button>
 
     </form>
   </div>
