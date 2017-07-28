@@ -155,5 +155,5 @@
   } else {
     echo "<script type='text/javascript'>alert('agent performance table agent not updated!');</script>";
   }
-  //header("Location: quality_evaluate.php");
+  header("Location: quality_evaluate.php");
 ?>

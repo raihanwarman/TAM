@@ -61,7 +61,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     </div>
     <div class="w3-col s8 w3-bar">
       <?php
-        echo "<span>Welcome, <strong>";echo$_SESSION["user_pass"];echo"</strong></span><br>";
+        echo "<span>Welcome, <strong>";echo$_SESSION["nama_pass"];echo"</strong></span><br>";
        ?>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
@@ -76,9 +76,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
     <a href="admin.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Overview</a>
     <a href="admin_maintenance.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Maintenance</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i> Input Inbound</a>
+    <a href="admin_input_inbound.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i> Input Inbound</a>
     <a href="admin_input_outbound.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i> Input Outbound</a>
-    <a href="admin_cluster_agent.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"> </i>  Cluster Agent</a>
+    <a href="admin_cluster_agent.php" class="w3-bar-item w3-button w3-padding "><i class="fa fa-bullseye fa-fw"> </i>  Cluster Agent</a>
   </div>
 </nav>
 
@@ -89,51 +89,65 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
 
-  <div class="w3-panel">
-    <div class="w3-row-padding" style="margin:0 -16px">
-      <h5>Input Inbound</h5>
-      <table class="w3-table-all">
-        <thead>
-         <tr class="w3-light-grey">
-           <th>Nama</th>
-           <th> Last updated</th>
-           <th> Keterangan</th>
-           <th>Action</th>
-         </tr>
-       </thead>
-       <?php
-          $query = "select user.username as username, user.nama as nama, agent.admin_last_update as last_update from (user inner join agent
-                    on user.username = agent.username) where agent.position = 'inbound' && agent.role='sales'";
-          $result = mysqli_query($conn, $query);
-          //tulis output di tabel
-          if (mysqli_num_rows($result) > 0) {
-            while($row = $result->fetch_assoc()) {
-              echo"<tr>";
-              echo"<td>".$row["nama"]."</td>";
-              if($row["last_update"] == 00000000){
-                //echo"<td>".date('d-M-Y',strtotime($row["last_update"]))."</td>";
-                echo"<td>-</td>";
-                echo'<td>Nilai belum di input</td>';
-                echo'<td><a href="admin_input_value.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-arrow-right fa-fw"></i></a><small>Input Nilai</small></td>';
-              }
-              else{
-                echo"<td>".date('d-M-Y',strtotime($row["last_update"]))."</td>";
-                echo'<td>Nilai sudah di input</td>';
-                echo'<td><a href="admin_input_value.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-pencil-square-o"></i></a><small>Edit Nilai</small></td>';
-                }
-            echo"</tr>";
-          }
+  <header class="w3-container" style="padding-top:22px">
+    <?php
+
+      $kueri = "select user.nama as nama, agent.position as posisi from(user inner join agent on user.username = agent.username) where user.username ='".$_GET["usr"]."'";
+      $result = mysqli_query($conn, $kueri);
+      ///
+      $usr = $_GET["usr"];
+      if (mysqli_num_rows($result) > 0) {
+        while($row = $result->fetch_assoc()) {
+          echo'<h5><b><i class="fa fa-dashboard"></i> Input Value '.$row["nama"].' ( '.$row["posisi"].' )</b></h5>';
+          $posisi = $row["posisi"];
         }
-       ?>
-     </table>
-    </div>
+      }
+      $_SESSION['agent_pos'] = $posisi;
+      $_SESSION['agent_usr'] = $usr;
+    ?>
+
+  </header>
+
+  <div class="w3-container ">
+    <form action="admin_input_process.php" method="post"  id="form1">
+      <div class="w3-row-padding">
+        <div class="w3-half">
+          <p class="w3-justify">Jumlah Sales Agree</p>
+        </div>
+        <div class="w3-half">
+          <input class="w3-input w3-border" name="poin_satu" type="text" placeholder="Jumlah Sales Agree" required>
+        </div>
+      </div>
+
+      <div class="w3-row-padding">
+        <div class="w3-half">
+          <p class="w3-justify">Jumlah Sales PS</p>
+        </div>
+        <div class="w3-half">
+          <input class="w3-input w3-border" name="poin_dua" type="text" placeholder="Jumlah Sales PS" required>
+        </div>
+      </div>
+
+      <div class="w3-row-padding">
+        <div class="w3-half">
+          <p class="w3-justify">PNP Score</p>
+        </div>
+        <div class="w3-half">
+          <input class="w3-input w3-border" name="poin_tiga" type="text" placeholder="PNP Score" required>
+        </div>
+      </div>
+
+      <div class="w3-row-padding">
+        <div class="w3-half">
+          <p class="w3-justify">Attitude & Collaboration</p>
+        </div>
+        <div class="w3-half">
+          <input class="w3-input w3-border" name="poin_empat" type="text" placeholder="Attitude & Collaboration" required>
+        </div>
+      </div>
+      <button id"button1" class="w3-button w3-right w3-section w3-padding w3-ripple w3-red"  >Submit</button>
+    </form>
   </div>
-
-
-  <hr>
-
-
-
   <!-- End page content -->
 </div>
 

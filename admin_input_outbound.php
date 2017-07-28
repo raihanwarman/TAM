@@ -116,12 +116,12 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
                   //echo"<td>".date('d-M-Y',strtotime($row["last_update"]))."</td>";
                   echo"<td>-</td>";
                   echo'<td>Nilai belum di input</td>';
-                  echo'<td><a href="admin_reporting_input_value.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-arrow-right fa-fw"></i></a><small>Input Nilai</small></td>';
+                  echo'<td><a href="admin_input_value.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-arrow-right fa-fw"></i></a><small>Input Nilai</small></td>';
                 }
                 else{
                   echo"<td>".date('d-M-Y',strtotime($row["last_update"]))."</td>";
                   echo'<td>Nilai sudah di input</td>';
-                  echo'<td><a href="admin_reporting_input_value.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-pencil-square-o"></i></a><small>Edit Nilai</small></td>';
+                  echo'<td><a href="admin_input_value.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-pencil-square-o"></i></a><small>Edit Nilai</small></td>';
                   }
               echo"</tr>";
             }
@@ -132,7 +132,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     </div>
   <hr>
 
-  
+
 
   <!-- End page content -->
 </div>
