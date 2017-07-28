@@ -101,37 +101,37 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <h5><b><i class="fa fa-dashboard"></i> Evaluate Agent</b></h5>
   </header> -->
 
-  <table class="w3-table-all">
-    <thead>
-     <tr class="w3-light-grey">
-       <th>Nama</th>
-       <th>Performance</th>
-       <th> Last updated</th>
-       <th> Status</th>
-       <th>Action</th>
-     </tr>
-   </thead>
+    <table class="w3-table-all">
+      <thead>
+       <tr class="w3-light-grey">
+         <th>Nama</th>
+         <th>Performansi</th>
+         <th> Last updated</th>
+         <th> Keterangan</th>
+         <th>Action</th>
+       </tr>
+     </thead>
    <?php
 
 
 
       if ($periode == 1){
         $query2="select user.username as username, user.nama as nama, agent_performance_1.total as performance,
-                 agent_performance_1.date as last, agent.position as posisi from (user inner join quality_to_agent on
+                 agent.last_update_performance as last, agent.position as posisi from (user inner join quality_to_agent on
                  user.username = quality_to_agent.agent_id inner join agent on user.username = agent.username inner join
                  agent_performance_1 on user.username = agent_performance_1.username)
                  where quality_to_agent.quality_id = '".$_SESSION["user_pass"]."'";
       }
       elseif($periode == 2){
         $query2="select user.username as username, user.nama as nama, agent_performance_2.total as performance,
-                 agent_performance_2.date as last, agent.position as posisi from (user inner join quality_to_agent on
+                 agent.last_update_performance as last, agent.position as posisi from (user inner join quality_to_agent on
                  user.username = quality_to_agent.agent_id inner join agent on user.username = agent.username inner join
                  agent_performance_2 on user.username = agent_performance_2.username)
                  where quality_to_agent.quality_id = '".$_SESSION["user_pass"]."'";
       }
       elseif($periode == 3){
         $query2="select user.username as username, user.nama as nama, agent_performance_3.total as performance,
-                 agent_performance_3.date as last, agent.position as posisi from (user inner join quality_to_agent on
+                 agent.last_update_performance as last, agent.position as posisi from (user inner join quality_to_agent on
                  user.username = quality_to_agent.agent_id inner join agent on user.username = agent.username inner join
                  agent_performance_3 on user.username = agent_performance_3.username)
                  where quality_to_agent.quality_id = '".$_SESSION["user_pass"]."'";
@@ -144,16 +144,13 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
          echo"<td>".$row["nama"]."</td>";
          if($row["performance"] == NULL){
            echo"<td>0</td>";
-         }
-         else{
-           echo"<td>".$row["performance"]."</td>";
-         }
-         echo"<td>".date('d-M-Y',strtotime($row["last"]))."</td>";
-         if($row["performance"] == NULL){
+           echo"<td>".date('d-M-Y',strtotime($row["last"]))."</td>";
            echo'<td>Nilai belum di input</td>';
            echo'<td><a href="quality_evaluate_input_value.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-arrow-right fa-fw"></i></a><small>Input Nilai</small></td>';
          }
          else{
+           echo'<td>'.$row["performance"].'</td>';
+           echo"<td>".date('d-M-Y',strtotime($row["last"]))."</td>";
            echo'<td>Nilai sudah di input</td>';
            echo'<td><a href="quality_evaluate_input_value.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-pencil-square-o"></i></a><small>Edit Nilai</small></td>';
          }

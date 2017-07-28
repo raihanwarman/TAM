@@ -88,12 +88,28 @@
   date_default_timezone_set("Asia/Bangkok");
   $time = date('Y-m-d H:i:s');
   $periode = ceil(date('d') / 10);
+  echo "<script type='text/javascript'>alert('$periode!');</script>";
+  $query_variable_total = "select agent_performance_1.total as nilai_1,
+                           agent_performance_2.total as nilai_2 from(agent_performance_1 inner join
+                           agent_performance_2 on agent_performance_1.username = agent_performance_2.username)
+                           where agent_performanace_1 = '$usr'";
+  $result = mysqli_query($conn, $query_variable_total);
+  if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $nilai_1 = $row['nilai_1'];
+    $nilai_2 = $row['nilai_2'];
+  }
   if ($periode == 1){
     $query_update_agent_performance =  "update agent_performance_1
                                         set date='$time' ,p1=$x1 , p2=$x2 , p3=$x3 , p4=$x4 , p5=$x5 ,
                                         p6=$x6 , p7=$x7 , p8=$x8 , p9=$x9 , p10=$x10 , p11=$x11 ,
                                         p12=$x12 , p13=$x13 , p14=$x14 , p15=$x15 , total=$total
                                         where username='$usr'";
+
+    echo "<script type='text/javascript'>alert('$total!');</script>";
+    $query_update_agent_performance_agent =  "update agent
+                                              set performance=$total, last_update_performance='$time'
+                                              where username='$usr'";
   }
   elseif($periode == 2){
     $query_update_agent_performance =  "update agent_performance_2
@@ -101,6 +117,12 @@
                                         p6=$x6 , p7=$x7 , p8=$x8 , p9=$x9 , p10=$x10 , p11=$x11 ,
                                         p12=$x12 , p13=$x13 , p14=$x14 , p15=$x15 , total=$total
                                         where username='$usr'";
+
+    $total_rata2 = ($nilai_1 + $total) / 2;
+    echo "<script type='text/javascript'>alert('$total_rata2 -> $nilai_1!');</script>";
+    $query_update_agent_performance_agent =  "update agent
+                                              set performance=$total_rata2, last_update_performance='$time'
+                                              where username='$usr'";
   }
   elseif($periode == 3){
     $query_update_agent_performance =  "update agent_performance_3
@@ -108,11 +130,17 @@
                                         p6=$x6 , p7=$x7 , p8=$x8 , p9=$x9 , p10=$x10 , p11=$x11 ,
                                         p12=$x12 , p13=$x13 , p14=$x14 , p15=$x15 , total=$total
                                         where username='$usr'";
+
+    $total_rata2 = ($nilai_1 +$nilai_2 + $total) / 3;
+    echo "<script type='text/javascript'>alert('$total_rata2 -> $nilai_1 && $nilai_2!');</script>";
+    $query_update_agent_performance_agent =  "update agent
+                                              set performance=$total_rata2, last_update_performance='$time'
+                                              where username='$usr'";
   }
 
 
   $query_update_agent_performance_agent =  "update agent
-                                            set performance=$total
+                                            set performance=$total, last_update_performance='$time'
                                             where username='$usr'";
 
   //update performance in agent_performance
@@ -127,5 +155,5 @@
   } else {
     echo "<script type='text/javascript'>alert('agent performance table agent not updated!');</script>";
   }
-  header("Location: quality_evaluate.php");
+  //header("Location: quality_evaluate.php");
 ?>

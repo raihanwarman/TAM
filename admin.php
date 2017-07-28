@@ -76,9 +76,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
     <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Overview</a>
-    <a href="#" onclick="location.href='admin_maintenance.php'" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Maintenance</a>
-    <a href="admin_reporting.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Reporting</a>
-    <a href="admin_dapros.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"> </i>  Dapros</a>
+    <a href="admin_maintenance.php" onclick="location.href='admin_maintenance.php'" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Maintenance</a>
+    <a href="admin_input_inbound.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i> Input Inbound</a>
+    <a href="admin_input_outbound.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i> Input Outbound</a>
+    <a href="admin_cluster_agent.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"> </i>  Cluster Agent</a>
   </div>
 </nav>
 
@@ -115,7 +116,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     </div>
     <div class="w3-third">
       <div class="w3-container w3-teal w3-padding-16">
-        <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
+        <div class="w3-left"><i class="fa fa-handshake-o w3-xxxlarge"></i></div>
         <div class="w3-right">
           <?php
           $query = "SELECT COUNT(login_status) as jumlah FROM agent WHERE login_status = 1";
@@ -128,7 +129,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
           ?>
         </div>
         <div class="w3-clear"></div>
-        <h4>Total Agent Active</h4>
+        <h4>Total Sales Agree</h4>
       </div>
     </div>
     <div class="w3-third">
@@ -138,7 +139,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
           <h3>50</h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Deals made today</h4>
+        <h4>Total Sales PS</h4>
       </div>
     </div>
   </div>

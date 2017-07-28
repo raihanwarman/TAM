@@ -61,7 +61,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     </div>
     <div class="w3-col s8 w3-bar">
       <?php
-        echo "<span>Welcome, <strong>";echo$_SESSION["nama_pass"];echo"</strong></span><br>";
+        echo "<span>Welcome, <strong>";echo$_SESSION["user_pass"];echo"</strong></span><br>";
        ?>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
@@ -76,8 +76,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
     <a href="admin.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Overview</a>
     <a href="admin_maintenance.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Maintenance</a>
-    <a href="admin_reporting.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Reporting</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-bullseye fa-fw"> </i>  Dapros</a>
+    <a href="admin_input_inbound.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i> Input Inbound</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i> Input Outbound</a>
+    <a href="admin_cluster_agent.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"> </i>  Cluster Agent</a>
   </div>
 </nav>
 
@@ -88,35 +89,50 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
 
-  <div class="w3-container w3-dark-grey w3-padding-32">
-    <div class="w3-row">
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-green">Demographic</h5>
-        <p>Language</p>
-        <p>Country</p>
-        <p>City</p>
-      </div>
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-red">System</h5>
-        <p>Browser</p>
-        <p>OS</p>
-        <p>More</p>
-      </div>
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-orange">Target</h5>
-        <p>Users</p>
-        <p>Active</p>
-        <p>Geo</p>
-        <p>Interests</p>
+
+
+  <div class="w3-panel">
+    <div class="w3-row-padding" style="margin:0 -16px">
+        <h5>Input Outbound</h5>
+        <table class="w3-table-all">
+          <thead>
+           <tr class="w3-light-grey">
+             <th>Nama</th>
+             <th> Last updated</th>
+             <th> Keterangan</th>
+             <th>Action</th>
+           </tr>
+         </thead>
+         <?php
+            $query = "select user.username as username, user.nama as nama, agent.admin_last_update as last_update from (user inner join agent
+                      on user.username = agent.username) where agent.position = 'outbound'";
+            $result = mysqli_query($conn, $query);
+            //tulis output di tabel
+            if (mysqli_num_rows($result) > 0) {
+              while($row = $result->fetch_assoc()) {
+                echo"<tr>";
+                echo"<td>".$row["nama"]."</td>";
+                if($row["last_update"] == 00000000){
+                  //echo"<td>".date('d-M-Y',strtotime($row["last_update"]))."</td>";
+                  echo"<td>-</td>";
+                  echo'<td>Nilai belum di input</td>';
+                  echo'<td><a href="admin_reporting_input_value.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-arrow-right fa-fw"></i></a><small>Input Nilai</small></td>';
+                }
+                else{
+                  echo"<td>".date('d-M-Y',strtotime($row["last_update"]))."</td>";
+                  echo'<td>Nilai sudah di input</td>';
+                  echo'<td><a href="admin_reporting_input_value.php?usr='.$row["username"].'"'. 'class="w3-button w3-padding "><i class="fa fa-pencil-square-o"></i></a><small>Edit Nilai</small></td>';
+                  }
+              echo"</tr>";
+            }
+          }
+         ?>
+       </table>
       </div>
     </div>
-  </div>
+  <hr>
 
-  <!-- Footer -->
-  <footer class="w3-container w3-padding-16 w3-light-grey">
-    <h4>FOOTER</h4>
-    <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-  </footer>
+  
 
   <!-- End page content -->
 </div>
