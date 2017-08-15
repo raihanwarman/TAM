@@ -39,9 +39,9 @@
           //Cek role berdasarkan username lalu login
           $query_update_user_table = "insert into user (nama, username, password, role, gender)
                     values('$nama','$username','$password','2','$gender')";
-          $query_update_agent_table = "insert into agent(username, login_status,
-                    position, sales_day, sales_week, sales_month, performance, status)
-                    values('$username', 0, '$position', 0, 0, 0, 0, 0)";
+          $query_update_agent_table = "insert into agent(username,
+                    position)
+                    values('$username','$position')";
           $query_update_login_note_table = "insert into login_note(username, last_login)
                     values('$username', 0)";
           $query_update_agent_performance_1 = "insert into agent_performance_1(username)
@@ -163,6 +163,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-eye fa-fw"></i>  Maintenance</a>
     <a href="admin_input_inbound.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i> Input Inbound</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i> Input Outbound</a>
+    <a href="admin_agent_data.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i> Agent Data</a>
     <a href="admin_cluster_agent.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"> </i>  Cluster Agent</a>
   </div>
 </nav>

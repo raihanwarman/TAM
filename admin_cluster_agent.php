@@ -1,4 +1,4 @@
-<?php
+ <?php
 // Start the session
 session_start();
 if($_SESSION['user_pass'] == NULL){
@@ -78,6 +78,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <a href="admin_maintenance.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Maintenance</a>
     <a href="admin_input_inbound.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i> Input Inbound</a>
     <a href="admin_input_outbound.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i> Input Outbound</a>
+    <a href="admin_agent_data.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i> Agent Data</a>
     <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-bullseye fa-fw"> </i>  Cluster Agent</a>
   </div>
 </nav>
@@ -89,29 +90,169 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
 
-  <div class="w3-container w3-dark-grey w3-padding-32">
-    <div class="w3-row">
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-green">Demographic</h5>
-        <p>Language</p>
-        <p>Country</p>
-        <p>City</p>
+  <div class="w3-row-padding w3-margin-bottom">
+    <div class="w3-half">
+      <h6></h6>
+      <div class="w3-bar w3-large w3-deep-orange w3-margin-bottom" >
+        <span class="w3-bar-item w3-left">Inbound Agent</span>
       </div>
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-red">System</h5>
-        <p>Browser</p>
-        <p>OS</p>
-        <p>More</p>
+      <table class="w3-table-all">
+        <thead>
+         <tr class="w3-light-grey">
+           <th>Nama</th>
+           <th>Mandatory Score</th>
+           <th>Basic Score</th>
+           <th>Status</th>
+         </tr>
+       </thead>
+       <?php
+         $query="select user.username as username, user.nama as nama from
+                (user inner join agent on user.username = agent.username)
+                where agent.position = 'inbound' order by nama ASC ";
+         $query='select user.nama as nama, agent.username as username,agent.position as posisi,
+                 agent.performance as performa, agent.sales_agree as sales_agree, agent.sales_ps as sales_ps,
+                 agent.pnp_score as pnp_score, agent.attitude_score as attitude_score
+                 from (user inner join agent on agent.username = user.username) where
+                 agent.role = "sales" && agent.position = "inbound"';
+         $result = mysqli_query($conn, $query);
+         $mandatory = 10.2;
+         $basic = 0.1;
+         $total = 0.2;
+         $platinum_mandatory = 68.75;
+         $platinum_total = 82.5;
+         $gold_mandatory = 41.8 + 23.5125;
+         $gold_total = 79.0625;
+         $silver_mandatory = 39.6 + 22.275;
+         $silver_total = 75.4875;
+         $bronze_mandatory = 37.4 + 21.0375;
+         $bronze_total = 74.6625;
+         $bronze_basic = 4.41 + 4.655 + 4.41;
+         $cluster = "tes";
+         //tulis output di tabel
+         if (mysqli_num_rows($result) > 0) {
+           while($row = $result->fetch_assoc()) {
+             echo"<tr>";
+             echo"<td>".$row["nama"]."</td>";
+             $mandatory = $row['sales_agree'] * 0.4 + $row['sales_ps'] * 0.45;
+             $basic = $row['pnp_score'] * 0.05 + $row['performa'] * 0.05 + $row['attitude_score'] * 0.05;
+             $total = $mandatory + $basic;
+             echo"<td>".$mandatory."</td>";
+             echo"<td>".$basic."</td>";
+              if ($basic > $bronze_basic){
+                if ($mandatory >= $platinum_mandatory){
+                  $cluster = "platinum";
+                }
+                elseif($mandatory >= $gold_mandatory){
+                  $cluster = "gold";
+                }
+                elseif($mandatory >= $silver_mandatory){
+                  $cluster = "silver";
+                }
+                elseif($mandatory >= $bronze_mandatory){
+                  $bronze = "gold";
+                }
+                else{
+                  $cluster = "underperformed";
+                }
+              }
+              else {
+                if($total >= $platinum_total){
+                  $cluster = "platinum";
+                }
+                elseif($total >= $gold_total){
+                  $cluster = "gold";
+                }
+                elseif($total >= $silver_total){
+                  $cluster = "silver";
+                }
+                elseif($total >= $bronze_total){
+                  $cluster = "bronze";
+                }
+                else {
+                  $cluster = "underperformed";
+                }
+              }
+            echo"<td>".$cluster."</td>";
+             echo"</tr>";
+           }
+         }
+       ?>
+
+      </table>
+     </div>
+     <div class="w3-half">
+       <h6></h6>
+       <div class="w3-bar w3-large w3-deep-orange w3-margin-bottom" >
+         <span class="w3-bar-item w3-left">Outbound Agent</span>
+       </div>
+       <table class="w3-table-all">
+         <thead>
+          <tr class="w3-light-grey">
+            <th>Nama</th>
+            <th>Mandatory Score</th>
+            <th>Basic Score</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <?php
+        $query='select user.nama as nama, agent.username as username,agent.position as posisi,
+                agent.performance as performa, agent.sales_agree as sales_agree, agent.sales_ps as sales_ps,
+                agent.pnp_score as pnp_score, agent.attitude_score as attitude_score
+                from (user inner join agent on agent.username = user.username) where
+                agent.role = "sales" && agent.position = "outbound"';
+          $result = mysqli_query($conn, $query);
+          //tulis output di tabel
+          if (mysqli_num_rows($result) > 0) {
+            while($row = $result->fetch_assoc()) {
+              echo"<tr>";
+              echo"<td>".$row["nama"]."</td>";
+              $mandatory = $row['sales_agree'] * 0.4 + $row['sales_ps'] * 0.45;
+              $basic = $row['pnp_score'] * 0.05 + $row['performa'] * 0.05 + $row['attitude_score'] * 0.05;
+              $total = $mandatory + $basic;
+              echo"<td>".$mandatory."</td>";
+              echo"<td>".$basic."</td>";
+               if ($basic > $bronze_basic){
+                 if ($mandatory >= $platinum_mandatory){
+                   $cluster = "platinum";
+                 }
+                 elseif($mandatory >= $gold_mandatory){
+                   $cluster = "gold";
+                 }
+                 elseif($mandatory >= $silver_mandatory){
+                   $cluster = "silver";
+                 }
+                 elseif($mandatory >= $bronze_mandatory){
+                   $bronze = "gold";
+                 }
+                 else{
+                   $cluster = "underperformed";
+                 }
+               }
+               else {
+                 if($total >= $platinum_total){
+                   $cluster = "platinum";
+                 }
+                 elseif($total >= $gold_total){
+                   $cluster = "gold";
+                 }
+                 elseif($total >= $silver_total){
+                   $cluster = "silver";
+                 }
+                 elseif($total >= $bronze_total){
+                   $cluster = "bronze";
+                 }
+                 else {
+                   $cluster = "underperformed";
+                 }
+               }
+             echo"<td>".$cluster."</td>";
+              echo"</tr>";
+            }
+          }
+        ?>
+       </table>
       </div>
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-orange">Target</h5>
-        <p>Users</p>
-        <p>Active</p>
-        <p>Geo</p>
-        <p>Interests</p>
-      </div>
-    </div>
-  </div>
+   </div>
 
   <!-- Footer -->
   <footer class="w3-container w3-padding-16 w3-light-grey">

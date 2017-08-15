@@ -239,7 +239,22 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         }
 
       ?>
-
+      <div class="w3-row-padding">
+        <div class="w3-third">
+          <p class="w3-justify">Comment for Agent's Performance</p>
+        </div>
+        <div class="w3-twothird">
+          <input class="w3-input w3-border" name="comment" type="text" placeholder="Your Comment">
+        </div>
+      </div>
+      <!-- <div class="w3-row-padding">
+        <div class="w3-third">
+          <p class="w3-justify"> Comment for Agent's Performance </p>
+        </div>
+        <div class"w3-third">
+          <input class="w3-input w3-border" name="comment"type="text" placeholder="Your Comment">
+        </div>
+      </div> -->
 
       <button id"button1" class="w3-button w3-right w3-section w3-padding w3-ripple w3-red"  >Submit</button>
     </form>
