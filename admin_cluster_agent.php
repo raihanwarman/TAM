@@ -174,6 +174,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
               }
             echo"<td>".$cluster."</td>";
              echo"</tr>";
+             $query_update = "update agent set cluster =$cluster where agent.username =".$row["username"];
+             $conn->query($query_update);
            }
          }
        ?>
@@ -213,7 +215,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
               echo"<td>".$basic."</td>";
                if ($basic > $bronze_basic){
                  if ($mandatory >= $platinum_mandatory){
-                   $cluster = "platinum";
+                    $cluster = "platinum";
                  }
                  elseif($mandatory >= $gold_mandatory){
                    $cluster = "gold";
@@ -247,6 +249,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
                }
              echo"<td>".$cluster."</td>";
               echo"</tr>";
+              $query_update = "update agent set cluster ='$cluster' where agent.username ='".$row["username"]."'";
+              $conn->query($query_update);
             }
           }
         ?>
